@@ -32,8 +32,7 @@ type StaticPageArgs struct {
 type StaticPage struct {
 	pulumi.ResourceState
 
-	Bucket     *s3.Bucket          `pulumi:"bucket"`
-	WebsiteUrl pulumi.StringOutput `pulumi:"websiteUrl"`
+	Bucket *s3.Bucket `pulumi:"bucket"`
 }
 
 // NewStaticPage creates a new StaticPage component resource.
@@ -51,9 +50,9 @@ func NewStaticPage(ctx *pulumi.Context,
 
 	// Create a bucket and expose a website index document.
 	bucket, err := s3.NewBucket(ctx, name, &s3.BucketArgs{
-		Website: s3.BucketWebsiteArgs{
-			IndexDocument: pulumi.String("index.html"),
-		},
+		// Website: s3.BucketWebsiteArgs{
+		// 	IndexDocument: pulumi.String("index.html"),
+		// },
 	}, pulumi.Parent(component))
 	if err != nil {
 		return nil, err
@@ -96,11 +95,11 @@ func NewStaticPage(ctx *pulumi.Context,
 	}
 
 	component.Bucket = bucket
-	component.WebsiteUrl = bucket.WebsiteEndpoint
+	// component.WebsiteUrl = bucket.WebsiteEndpoint
 
 	if err := ctx.RegisterResourceOutputs(component, pulumi.Map{
-		"bucket":     bucket,
-		"websiteUrl": bucket.WebsiteEndpoint,
+		"bucket": bucket,
+		// "websiteUrl": bucket.WebsiteEndpoint,
 	}); err != nil {
 		return nil, err
 	}
