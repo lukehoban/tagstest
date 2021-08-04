@@ -15,6 +15,8 @@
 package provider
 
 import (
+	"fmt"
+
 	"github.com/pulumi/pulumi-aws/sdk/v4/go/aws/s3"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -22,7 +24,8 @@ import (
 // The set of arguments for creating a StaticPage component resource.
 type StaticPageArgs struct {
 	// The HTML content for index.html.
-	IndexContent pulumi.StringInput `pulumi:"indexContent"`
+	IndexContent pulumi.StringInput    `pulumi:"indexContent"`
+	Tags         pulumi.StringMapInput `pulumi:"tags"`
 }
 
 // The StaticPage component resource.
@@ -41,7 +44,7 @@ func NewStaticPage(ctx *pulumi.Context,
 	}
 
 	component := &StaticPage{}
-	err := ctx.RegisterComponentResource("xyz:index:StaticPage", name, component, opts...)
+	err := ctx.RegisterComponentResource("tagstest:index:StaticPage", name, component, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -62,6 +65,10 @@ func NewStaticPage(ctx *pulumi.Context,
 		Key:         pulumi.String("index.html"),
 		Content:     args.IndexContent,
 		ContentType: pulumi.String("text/html"),
+		Tags: args.Tags.ToStringMapOutput().ApplyT(func(sm map[string]string) map[string]string {
+			fmt.Printf("%v\n", sm)
+			return sm
+		}).(pulumi.StringMapOutput),
 	}, pulumi.Parent(bucket)); err != nil {
 		return nil, err
 	}

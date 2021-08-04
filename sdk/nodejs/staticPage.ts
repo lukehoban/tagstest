@@ -8,7 +8,7 @@ import * as aws from "@pulumi/aws";
 
 export class StaticPage extends pulumi.ComponentResource {
     /** @internal */
-    public static readonly __pulumiType = 'xyz:index:StaticPage';
+    public static readonly __pulumiType = 'tagstest:index:StaticPage';
 
     /**
      * Returns true if the given object is an instance of StaticPage.  This is designed to work even
@@ -45,6 +45,7 @@ export class StaticPage extends pulumi.ComponentResource {
                 throw new Error("Missing required property 'indexContent'");
             }
             inputs["indexContent"] = args ? args.indexContent : undefined;
+            inputs["tags"] = args ? args.tags : undefined;
             inputs["bucket"] = undefined /*out*/;
             inputs["websiteUrl"] = undefined /*out*/;
         } else {
@@ -66,4 +67,5 @@ export interface StaticPageArgs {
      * The HTML content for index.html.
      */
     readonly indexContent: pulumi.Input<string>;
+    readonly tags?: pulumi.Input<{[key: string]: pulumi.Input<string>}>;
 }

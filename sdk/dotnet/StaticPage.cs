@@ -7,9 +7,9 @@ using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Pulumi.Serialization;
 
-namespace Pulumi.Xyz
+namespace Pulumi.Tagstest
 {
-    [XyzResourceType("xyz:index:StaticPage")]
+    [TagstestResourceType("tagstest:index:StaticPage")]
     public partial class StaticPage : Pulumi.ComponentResource
     {
         /// <summary>
@@ -33,7 +33,7 @@ namespace Pulumi.Xyz
         /// <param name="args">The arguments used to populate this resource's properties</param>
         /// <param name="options">A bag of options that control this resource's behavior</param>
         public StaticPage(string name, StaticPageArgs args, ComponentResourceOptions? options = null)
-            : base("xyz:index:StaticPage", name, args ?? new StaticPageArgs(), MakeResourceOptions(options, ""), remote: true)
+            : base("tagstest:index:StaticPage", name, args ?? new StaticPageArgs(), MakeResourceOptions(options, ""), remote: true)
         {
         }
 
@@ -57,6 +57,14 @@ namespace Pulumi.Xyz
         /// </summary>
         [Input("indexContent", required: true)]
         public Input<string> IndexContent { get; set; } = null!;
+
+        [Input("tags")]
+        private InputMap<string>? _tags;
+        public InputMap<string> Tags
+        {
+            get => _tags ?? (_tags = new InputMap<string>());
+            set => _tags = value;
+        }
 
         public StaticPageArgs()
         {

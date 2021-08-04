@@ -14,12 +14,15 @@ __all__ = ['StaticPageArgs', 'StaticPage']
 @pulumi.input_type
 class StaticPageArgs:
     def __init__(__self__, *,
-                 index_content: pulumi.Input[str]):
+                 index_content: pulumi.Input[str],
+                 tags: Optional[pulumi.Input[Mapping[str, pulumi.Input[str]]]] = None):
         """
         The set of arguments for constructing a StaticPage resource.
         :param pulumi.Input[str] index_content: The HTML content for index.html.
         """
         pulumi.set(__self__, "index_content", index_content)
+        if tags is not None:
+            pulumi.set(__self__, "tags", tags)
 
     @property
     @pulumi.getter(name="indexContent")
@@ -33,6 +36,15 @@ class StaticPageArgs:
     def index_content(self, value: pulumi.Input[str]):
         pulumi.set(self, "index_content", value)
 
+    @property
+    @pulumi.getter
+    def tags(self) -> Optional[pulumi.Input[Mapping[str, pulumi.Input[str]]]]:
+        return pulumi.get(self, "tags")
+
+    @tags.setter
+    def tags(self, value: Optional[pulumi.Input[Mapping[str, pulumi.Input[str]]]]):
+        pulumi.set(self, "tags", value)
+
 
 class StaticPage(pulumi.ComponentResource):
     @overload
@@ -40,6 +52,7 @@ class StaticPage(pulumi.ComponentResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  index_content: Optional[pulumi.Input[str]] = None,
+                 tags: Optional[pulumi.Input[Mapping[str, pulumi.Input[str]]]] = None,
                  __props__=None):
         """
         Create a StaticPage resource with the given unique name, props, and options.
@@ -71,6 +84,7 @@ class StaticPage(pulumi.ComponentResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  index_content: Optional[pulumi.Input[str]] = None,
+                 tags: Optional[pulumi.Input[Mapping[str, pulumi.Input[str]]]] = None,
                  __props__=None):
         if opts is None:
             opts = pulumi.ResourceOptions()
@@ -88,10 +102,11 @@ class StaticPage(pulumi.ComponentResource):
             if index_content is None and not opts.urn:
                 raise TypeError("Missing required property 'index_content'")
             __props__.__dict__["index_content"] = index_content
+            __props__.__dict__["tags"] = tags
             __props__.__dict__["bucket"] = None
             __props__.__dict__["website_url"] = None
         super(StaticPage, __self__).__init__(
-            'xyz:index:StaticPage',
+            'tagstest:index:StaticPage',
             resource_name,
             __props__,
             opts,

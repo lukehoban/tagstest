@@ -1,12 +1,18 @@
 {
-    "name": "xyz",
+    "name": "tagstest",
     "resources": {
-        "xyz:index:StaticPage": {
+        "tagstest:index:StaticPage": {
             "isComponent": true,
             "inputProperties": {
                 "indexContent": {
                     "type": "string",
                     "description": "The HTML content for index.html."
+                },
+                "tags": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
                 }
             },
             "requiredInputs": [
@@ -37,7 +43,7 @@
         },
         "go": {
             "generateResourceContainerTypes": true,
-            "importBasePath": "github.com/pulumi/pulumi-xyz/sdk/go/xyz"
+            "importBasePath": "github.com/pulumi/pulumi-tagstest/sdk/go/tagstest"
         },
         "nodejs": {
             "dependencies": {
